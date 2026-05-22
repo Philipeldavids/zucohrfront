@@ -1,0 +1,139 @@
+@import "tailwindcss";
+@import "tw-animate-css";
+
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@plugin "@tailwindcss/typography";
+
+@custom-variant dark (&:is(.dark *));
+
+
+@theme inline {
+  --font-sans: "Inter", ui-sans-serif, system-ui, sans-serif;
+  --font-display: "Plus Jakarta Sans", ui-sans-serif, system-ui, sans-serif;
+  --font-mono:
+    "Geist Mono", ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas,
+    "Liberation Mono", "Courier New", monospace;
+  --font-serif:
+    "Noto Serif", ui-serif, Georgia, Cambria, "Times New Roman", Times, serif;
+
+  --radius-sm: calc(var(--radius) - 4px);
+  --radius-md: calc(var(--radius) - 2px);
+  --radius-lg: var(--radius);
+  --radius-xl: calc(var(--radius) + 4px);
+  --color-background: var(--background);
+  --color-foreground: var(--foreground);
+  --color-card: var(--card);
+  --color-card-foreground: var(--card-foreground);
+  --color-popover: var(--popover);
+  --color-popover-foreground: var(--popover-foreground);
+  --color-primary: var(--primary);
+  --color-primary-foreground: var(--primary-foreground);
+  --color-secondary: var(--secondary);
+  --color-secondary-foreground: var(--secondary-foreground);
+  --color-muted: var(--muted);
+  --color-muted-foreground: var(--muted-foreground);
+  --color-accent: var(--accent);
+  --color-accent-foreground: var(--accent-foreground);
+  --color-destructive: var(--destructive);
+  --color-border: var(--border);
+  --color-input: var(--input);
+  --color-ring: var(--ring);
+  --color-chart-1: var(--chart-1);
+  --color-chart-2: var(--chart-2);
+  --color-chart-3: var(--chart-3);
+  --color-chart-4: var(--chart-4);
+  --color-chart-5: var(--chart-5);
+  --color-sidebar: var(--sidebar);
+  --color-sidebar-foreground: var(--sidebar-foreground);
+  --color-sidebar-primary: var(--sidebar-primary);
+  --color-sidebar-primary-foreground: var(--sidebar-primary-foreground);
+  --color-sidebar-accent: var(--sidebar-accent);
+  --color-sidebar-accent-foreground: var(--sidebar-accent-foreground);
+  --color-sidebar-border: var(--sidebar-border);
+  --color-sidebar-ring: var(--sidebar-ring);
+}
+
+:root {
+  --radius: 0.75rem;
+  --background: #f8f8fb;
+  --foreground: #080715;
+  --card: #ffffff;
+  --card-foreground: #080715;
+  --popover: #ffffff;
+  --popover-foreground: #080715;
+  --primary: #5f25d5;
+  --primary-foreground: #fcfcfc;
+  --secondary: #eaeaf5;
+  --secondary-foreground: #2d284a;
+  --muted: #eeeef4;
+  --muted-foreground: #67677a;
+  --accent: #e5e3ff;
+  --accent-foreground: #390a89;
+  --destructive: #e7000b;
+  --border: #dddde6;
+  --input: #e3e4ec;
+  --ring: #5f25d5;
+  --chart-1: #5f25d5;
+  --chart-2: #00b07e;
+  --chart-3: #f07900;
+  --chart-4: #ae53e6;
+  --chart-5: #e62845;
+  --sidebar: #0d0821;
+  --sidebar-foreground: #e7e7ee;
+  --sidebar-primary: #967dff;
+  --sidebar-primary-foreground: #fcfcfc;
+  --sidebar-accent: #1e193a;
+  --sidebar-accent-foreground: #e7e7ee;
+  --sidebar-border: #25223d;
+  --sidebar-ring: #5f25d5;
+}
+
+.dark {
+  --background: #05050f;
+  --foreground: #edeef5;
+  --card: #0e0e1b;
+  --card-foreground: #edeef5;
+  --popover: #0e0e1b;
+  --popover-foreground: #edeef5;
+  --primary: #9475ff;
+  --primary-foreground: #03020c;
+  --secondary: #1d1d2f;
+  --secondary-foreground: #dddde4;
+  --muted: #171625;
+  --muted-foreground: #848498;
+  --accent: #261e4b;
+  --accent-foreground: #cdc8ff;
+  --destructive: #ff6467;
+  --border: #ffffff1a;
+  --input: #ffffff1f;
+  --ring: #9475ff;
+  --chart-1: #9475ff;
+  --chart-2: #00b07e;
+  --chart-3: #ff8918;
+  --chart-4: #b85df1;
+  --chart-5: #f83e54;
+  --sidebar: #04030e;
+  --sidebar-foreground: #d6d7de;
+  --sidebar-primary: #9475ff;
+  --sidebar-primary-foreground: #fcfcfc;
+  --sidebar-accent: #18142e;
+  --sidebar-accent-foreground: #d6d7de;
+  --sidebar-border: #ffffff14;
+  --sidebar-ring: #9475ff;
+}
+
+@layer base {
+  * {
+    @apply border-border outline-ring/50;
+  }
+  body {
+    @apply bg-background text-foreground;
+  }
+}
+
+.font-display {
+  font-family: var(--font-display);
+}
