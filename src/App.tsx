@@ -21,6 +21,9 @@ import CareersPage from "./pages/careers/page.tsx";
 import JobDetailsPage from "./pages/careers/job-details-page.tsx";
 //import AssignRoleModal from "./pages/roles/AssignRoleModal.tsx";
 import CreateRolePage from "./pages/roles/page"
+import EmployeeAttendanceDashboard from "./pages//attendance/employee-dashboard.tsx";
+import HRAttendanceDashboard from "./pages/attendance/hr-dashboard.tsx";
+
 export default function App() {
   //useServiceWorker();
   return (
@@ -40,6 +43,8 @@ export default function App() {
             <Route path="/dashboard" element={<Dashboard />} />
             <Route path="/employees" element={<EmployeesPage />} />
             <Route path="/leave" element={<LeavePage />} />
+            <Route path="/e-attendance" element={<EmployeeAttendanceDashboard />} />
+            <Route path="/hr-attendance" element ={<HRAttendanceDashboard/>} />
             <Route path="/payroll" element={<PayrollPage />} />
             <Route path="/performance" element={<PerformancePage />} />
             <Route path="/expenses" element={<ExpensesPage />} />

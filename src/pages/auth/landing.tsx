@@ -1,9 +1,10 @@
 //import { SignInButton } from "../../components/ui/signin.tsx";
 //import { Authenticated, Unauthenticated, AuthLoading } from "convex/react";
-import { authService } from "../../lib/api";
+//import { authService } from "../../lib/api";
 import { color, motion } from "motion/react";
 import { useNavigate } from "react-router-dom";
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
+import { Menu, X } from "lucide-react";
 import Image from '../../assets/1777297540099.png'
 import {
   Users,
@@ -199,25 +200,129 @@ export default function AuthGate() {
 }
 
 function LandingPage() {
+
+  const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
   return (
     <div className="min-h-screen bg-background text-foreground overflow-x-hidden">
       {/* Navbar */}
-      <nav className="fixed top-0 left-0 right-0 z-50 flex items-center justify-between px-6 md:px-12 h-16 border-b border-border/60 bg-background/80 backdrop-blur-md">
-        <img
-          src={Image}
-          alt="ZucoHR"
-          className="h-8 w-auto object-contain flex-shrink-0"
-        />
+      <nav className="fixed top-0 left-0 right-0 z-50 border-b border-border/60 bg-background/80 backdrop-blur-md">
+      <div className="flex items-center justify-between h-16 px-4 md:px-8 lg:px-12">
+        
+        {/* Logo */}
+        <a href="/" className="flex items-center">
+          <img
+            src={Image}
+            alt="ZucoHR"
+            className="h-8 w-auto object-contain flex-shrink-0"
+          />
+        </a>
+
+        {/* Desktop Menu */}
         <div className="hidden md:flex items-center gap-8 text-sm text-muted-foreground">
-          <a href="#features" className="hover:text-foreground transition-colors cursor-pointer">Features</a>
-          <a href="#how-it-works" className="hover:text-foreground transition-colors cursor-pointer">How it works</a>
-          <a href="#testimonials" className="hover:text-foreground transition-colors cursor-pointer">Testimonials</a>
-          <a href="#pricing" className="hover:text-foreground transition-colors cursor-pointer">Pricing</a>
-        <a href="/login"><button style={{backgroundColor: "#5f25d5", color: 'white', padding: '10px 17px',width: '90px', borderRadius: 5}} className="cursor-pointer">Login</button></a>
-         <a href="/signup"><button style={{border: "1px solid #5f25d5", color: '#5f25d5', padding: '10px 17px', borderRadius: 5}} className="cursor-pointer">Sign Up</button></a>
+          <a
+            href="#features"
+            className="hover:text-foreground transition-colors"
+          >
+            Features
+          </a>
+
+          <a
+            href="#how-it-works"
+            className="hover:text-foreground transition-colors"
+          >
+            How it works
+          </a>
+
+          <a
+            href="#testimonials"
+            className="hover:text-foreground transition-colors"
+          >
+            Testimonials
+          </a>
+
+          <a
+            href="#pricing"
+            className="hover:text-foreground transition-colors"
+          >
+            Pricing
+          </a>
+
+          <div className="flex items-center gap-3 ml-2">
+            <a href="/login">
+              <button className="bg-[#5f25d5] text-white px-4 py-2 rounded-md hover:opacity-90 transition cursor-pointer">
+                Login
+              </button>
+            </a>
+
+            <a href="/signup">
+              <button className="border border-[#5f25d5] text-[#5f25d5] px-4 py-2 rounded-md hover:bg-[#5f25d5]/5 transition cursor-pointer">
+                Sign Up
+              </button>
+            </a>
+          </div>
         </div>
-        {/* <SignInButton signInText="Sign In" className="cursor-pointer" /> */}
-      </nav>
+
+        {/* Mobile Toggle */}
+        <button
+          onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
+          className="md:hidden flex items-center justify-center w-10 h-10 rounded-md hover:bg-muted transition"
+        >
+          {mobileMenuOpen ? <X size={22} /> : <Menu size={22} />}
+        </button>
+      </div>
+
+      {/* Mobile Menu */}
+      {mobileMenuOpen && (
+        <div className="md:hidden border-t border-border bg-background px-4 py-5 space-y-4 shadow-lg">
+          <a
+            href="#features"
+            className="block text-sm text-muted-foreground hover:text-foreground transition"
+            onClick={() => setMobileMenuOpen(false)}
+          >
+            Features
+          </a>
+
+          <a
+            href="#how-it-works"
+            className="block text-sm text-muted-foreground hover:text-foreground transition"
+            onClick={() => setMobileMenuOpen(false)}
+          >
+            How it works
+          </a>
+
+          <a
+            href="#testimonials"
+            className="block text-sm text-muted-foreground hover:text-foreground transition"
+            onClick={() => setMobileMenuOpen(false)}
+          >
+            Testimonials
+          </a>
+
+          <a
+            href="#pricing"
+            className="block text-sm text-muted-foreground hover:text-foreground transition"
+            onClick={() => setMobileMenuOpen(false)}
+          >
+            Pricing
+          </a>
+
+          <div className="flex flex-col gap-3 pt-3">
+            <a href="/login" className="w-full">
+              <button className="w-full bg-[#5f25d5] text-white py-2.5 rounded-md hover:opacity-90 transition">
+                Login
+              </button>
+            </a>
+
+            <a href="/signup" className="w-full">
+              <button className="w-full border border-[#5f25d5] text-[#5f25d5] py-2.5 rounded-md hover:bg-[#5f25d5]/5 transition">
+                Sign Up
+              </button>
+            </a>
+          </div>
+        </div>
+      )}
+    </nav>
+
 
       {/* Hero */}
       <section className="relative flex flex-col items-center justify-center min-h-screen px-4 pt-16 text-center overflow-hidden">

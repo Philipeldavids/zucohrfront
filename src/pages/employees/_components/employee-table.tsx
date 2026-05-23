@@ -129,6 +129,12 @@ export default function EmployeeTable({
   };
 
   const handleDelete = async (id: string) => {
+
+     const confirmed = window.confirm(
+    "Delete this expense?"
+  );
+
+  if (!confirmed) return;
     try {
       await employeeService.delete(id);
 

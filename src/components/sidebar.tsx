@@ -26,10 +26,11 @@ import Image from '../assets/1777297540099.png';
 const navItems = [
   { label: "Dashboard", icon: LayoutDashboard, href: "/dashboard" },
   { label: "Employees", icon: Users, href: "/employees" },
-  { label: "Leave", icon: CalendarDays, href: "/leave", badge: 14 },
+  { label: "Leave", icon: CalendarDays, href: "/leave"},
+  { label: "Attendance", icon: ClipboardList, href: "/hr-attendance"},
   { label: "Payroll", icon: CreditCard, href: "/payroll" },
   { label: "Performance", icon: TrendingUp, href: "/performance" },
-  { label: "Expenses", icon: Receipt, href: "/expenses", badge: 23 },
+  { label: "Expenses", icon: Receipt, href: "/expenses"},
   { label: "Recruitment", icon: Briefcase, href: "/recruitment" },
   { label: "Onboarding", icon: ClipboardList, href: "/onboarding" },
   { label: "Users", icon: Users, href: "/users" },
@@ -101,11 +102,11 @@ export default function Sidebar() {
               {!collapsed && (
                 <>
                   <span className="flex-1">{item.label}</span>
-                  {item.badge !== undefined && (
+                  {/* {item.badge !== undefined && (
                     <Badge className="bg-primary/20 text-primary text-[10px] px-1.5 py-0 h-4 font-semibold">
                       {item.badge}
                     </Badge>
-                  )}
+                  )} */}
                 </>
               )}
             </Link>

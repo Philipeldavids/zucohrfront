@@ -137,6 +137,18 @@ export const employeeService = {
     return request<PaginatedResponse<Employee>>(`/employees/GetAll${query}`);
   },
 
+  bulkCreate: (
+  employees: Partial<Employee>[]
+) =>
+  request(
+    "/employees/bulk",
+    {
+      method: "POST",
+      body: JSON.stringify(
+        employees
+      ),
+    }
+  ),
   get: (id: string) =>
     request<Employee>(`/employees/${id}`),
 
@@ -438,6 +450,7 @@ export type Employee = {
   status: "active" | "inactive" | "on_leave";
   startDate: string;
   basicSalary: number;
+  employmentType: "fullTime" | "contract" | "intern";
   annualRent: number;
   avatar?: string;
   managerId?: string;
@@ -627,3 +640,121 @@ export type OnboardingTask = {
   status: "pending" | "in_progress" | "completed";
   assignedTo?: string;
 };
+
+
+
+export interface Attendance {
+  id: string;
+  employeeId: string;
+  employee?: {
+    firstName: string;
+    lastName: string;
+    department?: string;
+    position?: string;
+  };
+
+  date: string;
+
+  clockInTime?: string;
+  clockOutTime?: string;
+
+  workedMinutes: number;
+
+  status: string;
+
+  isLate: boolean;
+  locationAddress?: string;
+
+  shift?: {
+    id: string;
+    name: string;
+    startTime: string;
+    endTime: string;
+  };
+}
+
+export interface ClockInDto {
+  //employeeId: string;
+  latitude: number;
+  longitude: number;
+  locationAddress: string;
+}
+
+export interface ClockOutDto {
+  //employeeId: string;
+  latitude: number;
+  longitude: number;
+  locationAddress: string;
+}
+
+export const attendanceService = {
+  clockIn: (data: ClockInDto) =>
+    request("/attendance/clock-in", {
+      method: "POST",
+      body: JSON.stringify(data),
+    }),
+
+  clockOut: (data: ClockOutDto) =>
+    request("/attendance/clock-out", {
+      method: "POST",
+      body: JSON.stringify(data),
+    }),
+
+  myAttendance: () =>
+    request<Attendance[]>(
+      "/attendance/my-attendance"
+    ),
+
+  all: () =>
+    request<Attendance[]>(
+      "/attendance"
+    ),
+
+  today: () =>
+    request<Attendance[]>(
+      "/attendance/today"
+    ),
+};
+
+export const getCurrentLocation =
+  (): Promise<{
+    latitude: number;
+    longitude: number;
+    locationAddress: string;
+  }> => {
+    return new Promise((resolve, reject) => {
+      navigator.geolocation.getCurrentPosition(
+        async (position) => {
+          const latitude =
+            position.coords.latitude;
+
+          const longitude =
+            position.coords.longitude;
+
+          try {
+            const response = await fetch(
+              `https://nominatim.openstreetmap.org/reverse?format=jsonv2&lat=${latitude}&lon=${longitude}`
+            );
+
+            const data =
+              await response.json();
+
+            resolve({
+              latitude,
+              longitude,
+              locationAddress:
+                data.display_name,
+            });
+          } catch {
+            resolve({
+              latitude,
+              longitude,
+              locationAddress:
+                "Unknown Location",
+            });
+          }
+        },
+        reject
+      );
+    });
+  };

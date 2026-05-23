@@ -1,5 +1,6 @@
 import { useEffect, useMemo, useState } from "react";
 import { formatMoney } from "../../lib/currency";
+import Papa from "papaparse";
 import { type Payroll, payrollService } from "../../lib/api";
 import { Card, CardContent, CardHeader, CardTitle } from "../../components/ui/card";
 import { Badge } from "../../components/ui/badge";
@@ -101,6 +102,100 @@ const [yearFilter, setYearFilter] =
     )
   ).sort((a, b) => Number(b) - Number(a));
 }, [payrolls]);
+
+const exportPayrollCsv = async () => {
+  try {
+    const res = await payrollService.list({
+      page: "1",
+      pageSize: "5000",
+    });
+
+    const payrolls = res.data || [];
+
+    if (payrolls.length === 0) {
+      toast.error("No payroll data found");
+      return;
+    }
+
+    const csvData = payrolls.map((p: any) => ({
+      Employee:
+        p.employee
+          ? `${p.employee.firstName} ${p.employee.lastName}`
+          : "N/A",
+
+      EmployeeNumber:
+        p.employee?.employeeNumber || "",
+
+      Department:
+        p.employee?.department || "",
+
+      Position:
+        p.employee?.position || "",
+
+      BasicSalary:
+        p.basicSalary || 0,
+
+      Allowance:
+        p.allowance || 0,
+
+      GrossPay:
+        p.grossPay || 0,
+
+      Tax:
+        p.tax || 0,
+
+      Pension:
+        p.pension || 0,
+
+      Deductions:
+        p.totalDeductions || 0,
+
+      NetPay:
+        p.netPay || 0,
+
+      PayrollMonth:
+        p.payRun.month || "",
+
+      PayrollYear:
+        p.payRun.year || "",
+
+      Status:
+        p.payRun.status || "",
+
+      CreatedAt: p.createdAt
+        ? new Date(p.createdAt).toLocaleDateString()
+        : "",
+    }));
+
+    const csv = Papa.unparse(csvData);
+
+    const blob = new Blob([csv], {
+      type: "text/csv;charset=utf-8;",
+    });
+
+    const url = URL.createObjectURL(blob);
+
+    const link = document.createElement("a");
+
+    link.href = url;
+
+    link.setAttribute(
+      "download",
+      `zucohr-payroll-${new Date().toISOString().split("T")[0]}.csv`
+    );
+
+    document.body.appendChild(link);
+
+    link.click();
+
+    document.body.removeChild(link);
+
+    toast.success("Payroll CSV exported");
+  } catch (err) {
+    console.error(err);
+    toast.error("Failed to export payroll");
+  }
+};
   // ======================
   // LOAD PAYROLLS
   // ======================
@@ -478,11 +573,11 @@ const handleProcessPayroll = async (
                   />
 
                   <Tooltip
-                    formatter={(v: number) => [
-                      formatMoney(v),
-                      "Payroll",
-                    ]}
-                  />
+  formatter={(value) => [
+    formatMoney(Number(value || 0)),
+    "Payroll",
+  ]}
+/>
 
                   <Bar
                     dataKey="total"
@@ -681,18 +776,12 @@ const handleProcessPayroll = async (
           </Button>
 
           <Button
-            variant="secondary"
-            size="sm"
-            className="h-9 gap-1.5"
-            onClick={() =>
-              toast.success(
-                "Payroll report exported"
-              )
-            }
-          >
-            <Download size={14} />
-            Export
-          </Button>
+  onClick={exportPayrollCsv}
+  className="gap-2"
+>
+  <Download size={16} />
+  Export CSV
+</Button>
 
           <Button
             size="sm"

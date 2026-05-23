@@ -1,7 +1,6 @@
 import { Link, useLocation } from "react-router-dom";
 import { useEffect } from 'react';
 import { cn } from "../lib/utils";
-import { jwtDecode }from 'jwt-decode';
 import {
   LayoutDashboard,
   Users,
@@ -19,7 +18,7 @@ import {
 } from "lucide-react";
 import { useState } from "react";
 //import { Button } from "@/components/ui/button.tsx";
-import { Badge } from "../components/ui/badge";
+//import { Badge } from "../components/ui/badge";
 import { Avatar, AvatarFallback } from "../components/ui/avatar";
 //import { useAuth } from "@/hooks/use-auth.ts";
 import Image from '../assets/1777297540099.png';
@@ -28,9 +27,11 @@ const navItems = [
  { label: "Dashboard", icon: LayoutDashboard, href: "/dashboard" },
   //{ label: "Employees", icon: Users, href: "/employees" },
   { label: "Leave", icon: CalendarDays, href: "/leave" },
+  { label: "Attendance", icon: ClipboardList, href: "/e-attendance"},
   //{ label: "Payroll", icon: CreditCard, href: "/payroll" },
   { label: "Performance", icon: TrendingUp, href: "/performance" },
   { label: "Expenses", icon: Receipt, href: "/expenses" },
+  
   //{ label: "Recruitment", icon: Briefcase, href: "/recruitment" },
   //{ label: "Onboarding", icon: ClipboardList, href: "/onboarding" },
   //{ label: "Users", icon: Users, href: "/users" },

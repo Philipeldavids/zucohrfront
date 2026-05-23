@@ -4,6 +4,7 @@ import { Users, UserCheck, UserMinus, UserX } from "lucide-react";
 import { motion } from "motion/react";
 import EmployeeTable from "./_components/employee-table";
 import { useEffect, useState } from "react";
+import BulkUploadDialog from "./_components/bulk-upload-dialog";
 
 export default function EmployeesPage() {
   const [employees, setEmployees] = useState<Employee[]>([]);
@@ -105,7 +106,11 @@ export default function EmployeesPage() {
           </motion.div>
         ))}
       </div>
-
+             <div className="flex justify-end">
+  <BulkUploadDialog
+    onSuccess={loadEmployees}
+  />
+</div>
       {/* Employee Table */}
       <motion.div
         initial={{ opacity: 0, y: 16 }}
@@ -115,6 +120,7 @@ export default function EmployeesPage() {
           delay: 0.2,
         }}
       >
+   
         <EmployeeTable
           employees={employees}
           loading={loading}

@@ -43,6 +43,7 @@ const schema = z.object({
   allowance: z.coerce.number().nonnegative(),
   annualRent: z.coerce.number().nonnegative(),
   status: z.enum(["active", "inactive", "on_leave"]),
+  employmentType :z.enum(["fullTime", "contract", "intern"]),
   startDate: z.string().refine(val => !isNaN(Date.parse(val)), {
   message: "Invalid date",
 })
@@ -76,6 +77,7 @@ export default function EmployeeDialog({ open, onOpenChange, employee }: Props) 
       basicSalary: 0,
       allowance: 0,
       annualRent: 0,
+      employmentType: "fullTime",
       status: "active",
       startDate: "",
     },
@@ -94,6 +96,7 @@ export default function EmployeeDialog({ open, onOpenChange, employee }: Props) 
         location: employee.location ?? "",
         basicSalary: employee.basicSalary || 0,
         status: employee.status,
+        employmentType: employee.employmentType,
         allowance: employee.allowance || 0,
         annualRent: employee.annualRent || 0,
         startDate: employee.startDate
@@ -278,6 +281,7 @@ const onSubmit = async (values: FormValues) => {
 </FormControl>
                   <FormMessage />
                 </FormItem>
+                
               )} />
 
         <FormField control={form.control} name="employeeNumber" render={({ field }) => (
@@ -303,7 +307,24 @@ const onSubmit = async (values: FormValues) => {
 </FormControl>
                   <FormMessage />
                    </FormItem>
+                   
                   )} />
+                  <FormField control={form.control} name="employmentType" render={({ field }) => (
+                <FormItem>
+                  <FormLabel>Employment Type</FormLabel>
+                  <Select onValueChange={field.onChange} value={field.value}>
+                    <FormControl>
+                      <SelectTrigger><SelectValue /></SelectTrigger>
+                    </FormControl>
+                    <SelectContent>
+                      <SelectItem value="fullTime">Full-Time</SelectItem>
+                      <SelectItem value="contract">Contract</SelectItem>
+                      <SelectItem value="intern">Intern</SelectItem>
+                    </SelectContent>
+                  </Select>
+                  <FormMessage />
+                </FormItem>
+              )} />
               </div>
             <DialogFooter className="pt-2">
               <Button type="button" variant="ghost" onClick={() => onOpenChange(false)}>Cancel</Button>
