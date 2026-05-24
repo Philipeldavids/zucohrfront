@@ -1,4 +1,4 @@
-import { request, type PaginatedResponse, type Organization } from "./api";
+import { request, type Organization } from "./api";
 
 
 export interface PublicJob {

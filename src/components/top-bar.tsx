@@ -1,7 +1,6 @@
 import { Bell, Search, Sun, Moon } from "lucide-react";
 import { Button } from "../components/ui/button";
 import { Input } from "../components/ui/input";
-//import { Badge } from "../components/ui/badge";
 import { useState, useEffect} from "react";
 import { getConnection } from "../lib/signalr";
 import {notificationService, type Notification} from "../lib/api";
@@ -22,7 +21,7 @@ if (connection.state === "Disconnected") {
   await connection.start();
 }
 
-      const user = JSON.parse(localStorage.getItem("user")); // store after login
+      const user = JSON.parse(localStorage.getItem("user") || ""); // store after login
 
       // join group
       await connection.invoke("JoinUserGroup", user.id);

@@ -26,7 +26,7 @@ import {
 import { Button } from "../../../components/ui/button";
 import { toast } from "sonner";
 import { PlayCircle } from "lucide-react";
-import { payrollService, type createPayrunDTO } from "../../../lib/api";
+import { payrollService } from "../../../lib/api";
 
 const MONTHS = [
   "January","February","March","April","May","June",

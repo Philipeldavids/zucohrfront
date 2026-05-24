@@ -1,7 +1,6 @@
 
 import { motion } from "motion/react";
-import { useNavigate } from "react-router-dom";
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import { Menu, X } from "lucide-react";
 import Image from '../../assets/1777297540099.png'
 import {
@@ -27,7 +26,6 @@ import {
   UserCheck,
   ClipboardList,
 } from "lucide-react";
-import { Spinner } from "../../components/ui/spinner";
 
 const features = [
   {

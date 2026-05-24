@@ -15,7 +15,6 @@ import {
   Palette,
   Globe,
   LogOut,
-  Mail,
   Building2,
   Clock,
   Moon,

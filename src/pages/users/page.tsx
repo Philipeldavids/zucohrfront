@@ -8,7 +8,7 @@ import { toast } from 'sonner';
 export default function UsersPage() {
   const [users, setUsers] = useState<User[]>([]);
   const [roles, setRoles] = useState<Role[]>([]);
-  const [selectedUser, setSelectedUser] = useState(null);
+  const [selectedUser, setSelectedUser] = useState<User>();
   const [open, setOpen] = useState(false);
 
   useEffect(() => {
