@@ -1,7 +1,5 @@
-// pages/users/index.jsx
 import { useEffect, useState } from "react";
 import {userService, roleService, type User, type Role}from "../../lib/api";
-//import { set } from "date-fns";
 import AssignRoleModal from "../roles/AssignRoleModal";
 import { toast } from 'sonner';
 
