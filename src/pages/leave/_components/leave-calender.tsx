@@ -116,8 +116,8 @@ export default function LeaveCalendar({ leaves }: Props) {
                   {dayLeaves.slice(0, 2).map((leave) => (
                     <div
                       key={leave.id}
-                      className={`${leaveTypeColor[leave.leaveType]} rounded px-1 py-0.5`}
-                      title={`${leave.employeeName} – ${leave.leaveType}`}
+                      className={`${leaveTypeColor[leave.type]} rounded px-1 py-0.5`}
+                      title={`${leave.employeeName} – ${leave.type}`}
                     >
                       <p className="text-[9px] text-white font-medium truncate leading-tight">
                         {leave.employeeName?.split(" ")[0]}

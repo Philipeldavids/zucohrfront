@@ -1,7 +1,5 @@
-//import { SignInButton } from "../../components/ui/signin.tsx";
-//import { Authenticated, Unauthenticated, AuthLoading } from "convex/react";
-//import { authService } from "../../lib/api";
-import { color, motion } from "motion/react";
+
+import { motion } from "motion/react";
 import { useNavigate } from "react-router-dom";
 import { useEffect, useState } from "react";
 import { Menu, X } from "lucide-react";
@@ -167,33 +165,12 @@ const pricingPlans = [
   },
 ];
 
-function AuthRedirect() {
-  const navigate = useNavigate();
-  useEffect(() => {
-    navigate("/dashboard");
-  }, [navigate]);
-  return (
-    <div className="flex items-center justify-center h-screen">
-      <Spinner className="size-8" />
-    </div>
-  );
-}
 
 export default function AuthGate() {
   return (
     <>
      <LandingPage />
-      {/* <AuthLoading>
-        <div className="flex items-center justify-center h-screen">
-          <Spinner className="size-8" />
-        </div>
-      </AuthLoading>
-      <Authenticated>
-        <AuthRedirect />
-      </Authenticated>
-      <Unauthenticated>
-        <LandingPage />
-      </Unauthenticated> */}
+
      
     </> 
   );

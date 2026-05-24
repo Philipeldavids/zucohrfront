@@ -53,7 +53,7 @@ export default function ApplyJobDialog({
 const {companySlug} = useParams(); 
   async function onSubmit(values: FormValues) {
     try {
-      await recruitmentApi.applyToJob(companySlug, job.id, {
+      await recruitmentApi.applyToJob(companySlug, job?.id, {
         ...values,
         resume: values.resume,
       });

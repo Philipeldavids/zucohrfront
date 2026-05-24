@@ -1,7 +1,6 @@
 import { useState, useEffect } from "react";
 import { formatMoney } from "../../lib/currency";
 import RejectExpenseDialog from "./_components/rejectexpense-dialog";
-//import { expenseService } from "../../lib/mock-data";
 import {type Expense, expenseService } from "../../lib/api";
 import { Card, CardContent, CardHeader, CardTitle } from "../../components/ui/card";
 import { Badge } from "../../components/ui/badge";
@@ -30,9 +29,7 @@ import {
   Eye,
   Check,
   X,
-  ArrowUpRight,
-  DollarSign,
-  Banknote,
+  ArrowUpRight, 
 } from "lucide-react";
 import { motion } from "motion/react";
 import {
@@ -329,10 +326,16 @@ const handleDelete = async (id: string) => {
                   <CartesianGrid strokeDasharray="3 3" stroke="oklch(0.9 0.01 255)" vertical={false} />
                   <XAxis dataKey="month" tick={{ fontSize: 11 }} axisLine={false} tickLine={false} />
                   <YAxis tick={{ fontSize: 10 }} axisLine={false} tickLine={false} tickFormatter={(v: number) => `${formatMoney(v / 1000)}k`} />
-                  <Tooltip contentStyle={{ fontSize: 12, borderRadius: 8 }} formatter={(v: number) => [
-  formatMoney(v),
-  "Expenses",
-]} />
+                 <Tooltip
+  contentStyle={{
+    fontSize: 12,
+    borderRadius: 8,
+  }}
+  formatter={(value) => [
+    formatMoney(Number(value || 0)),
+    "Expenses",
+  ]}
+/>
                   <Bar dataKey="amount" fill="oklch(0.65 0.18 55)" radius={[6, 6, 0, 0]} />
                 </BarChart>
               </ResponsiveContainer>
@@ -353,7 +356,8 @@ const handleDelete = async (id: string) => {
                     <Cell key={i} fill={entry.color} />
                   ))}
                 </Pie>
-                <Tooltip formatter={(v: number) => [formatMoney(v), ""]} />
+                <Tooltip  formatter={(value) => [
+    formatMoney(Number(value || 0)), ""]} />
               </PieChart>
               <div className="w-full space-y-1.5">
                 {categoryChartData.map((d) => (

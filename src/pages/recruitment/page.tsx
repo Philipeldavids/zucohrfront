@@ -1,5 +1,4 @@
 import { useState, useEffect } from "react";
-//import { mockJobs, mockCandidates } from "../../lib/mock-data";
 import { type Job, type Candidate, recruitmentService } from "../../lib/api";
 import { Card, CardContent, CardHeader, CardTitle } from "../../components/ui/card";
 import { Badge } from "../../components/ui/badge";
@@ -49,14 +48,7 @@ const STAGES: { key: Candidate["stage"]; label: string; color: string }[] = [
   { key: "rejected", label: "Rejected", color: "bg-red-500" },
 ];
 
-const stageBadge: Record<string, string> = {
-  applied: "bg-slate-100 text-slate-700 dark:bg-slate-800 dark:text-slate-300",
-  screening: "bg-amber-100 text-amber-700 dark:bg-amber-900/30 dark:text-amber-400",
-  interview: "bg-blue-100 text-blue-700 dark:bg-blue-900/30 dark:text-blue-400",
-  offer: "bg-violet-100 text-violet-700 dark:bg-violet-900/30 dark:text-violet-400",
-  hired: "bg-emerald-100 text-emerald-700 dark:bg-emerald-900/30 dark:text-emerald-400",
-  rejected: "bg-red-100 text-red-700 dark:bg-red-900/30 dark:text-red-400",
-};
+
 
 const jobStatusBadge: Record<string, string> = {
   open: "bg-emerald-100 text-emerald-700 dark:bg-emerald-900/30 dark:text-emerald-400",
@@ -111,9 +103,9 @@ const [loading, setLoading] = useState(false);
         recruitmentService.jobs(),
         recruitmentService.candidates(),
       ]);
-      console.log(candidatesRes);
-    setJobs(jobsRes.data);
-    setCandidates(candidatesRes.data);
+      
+    setJobs(jobsRes?.data || []);
+setCandidates(candidatesRes?.data || []);
   } catch (err) {
     console.error(err);
     toast.error(
@@ -145,49 +137,49 @@ useEffect(() => {
   const hiredCount = candidates.filter((c) => c.stage === "hired").length;
   const inInterviewCount = candidates.filter((c) => c.stage === "interview").length;
 
- async function handlePostJob(
-  data: Partial<Job>
-) {
-  try {
-    if (editingJob) {
-      const updated =
-        await recruitmentService.updateJob(
-          editingJob.id,
-          data
-        );
+//  async function handlePostJob(
+//   data: Partial<Job>
+// ) {
+//   try {
+//     if (editingJob) {
+//       const updated =
+//         await recruitmentService.updateJob(
+//           editingJob.id,
+//           data
+//         );
 
-      setJobs((prev) =>
-        prev.map((j) =>
-          j.id === editingJob.id
-            ? updated
-            : j
-        )
-      );
+//       setJobs((prev) =>
+//         prev.map((j) =>
+//           j.id === editingJob.id
+//             ? updated
+//             : j
+//         )
+//       );
 
-      toast.success("Job updated");
-    } else {
-      const created =
-        await recruitmentService.createJob(
-          data
-        );
+//       toast.success("Job updated");
+//     } else {
+//       const created =
+//         await recruitmentService.createJob(
+//           data
+//         );
 
-      setJobs((prev) => [
-        created,
-        ...prev,
-      ]);
+//       setJobs((prev) => [
+//         created,
+//         ...prev,
+//       ]);
 
-      toast.success(
-        "Job posted successfully"
-      );
-    }
+//       toast.success(
+//         "Job posted successfully"
+//       );
+//     }
 
-    setEditingJob(null);
-    setJobDialogOpen(false);
-  } catch (err) {
-    console.error(err);
-    toast.error("Failed to save job");
-  }
-}
+//     setEditingJob(null);
+//     setJobDialogOpen(false);
+//   } catch (err) {
+//     console.error(err);
+//     toast.error("Failed to save job");
+//   }
+// }
 
  async function handleMoveStage(
   candidateId: string,
@@ -245,7 +237,13 @@ useEffect(() => {
     toast.error("Failed to close job");
   }
 }
-//if (loading) {
+if (loading) {
+  return (
+    <div className="flex items-center justify-center py-20 text-muted-foreground">
+      Loading recruitment data...
+    </div>
+  );
+}
   return (
     <div className="flex flex-col gap-6 p-4 md:p-6 max-w-[1400px] mx-auto">
       {/* Header */}

@@ -28,8 +28,6 @@ import {
 
 import {
   ResponsiveContainer,
-  BarChart,
-  Bar,
   XAxis,
   YAxis,
   Tooltip,
@@ -55,16 +53,18 @@ export default function HRAttendanceDashboard() {
   }, []);
 
   const loadAttendance = async () => {
-    try {
-      setLoading(true);
+  try {
+  setLoading(true);
 
-      const res =
-        await attendanceService.all();
+  const res =
+    await attendanceService.all();
 
-      setAttendance(res);
-    } finally {
-      setLoading(false);
-    }
+  setAttendance(res || []);
+} catch (err) {
+  console.error(err);
+} finally {
+  setLoading(false);
+}
   };
 
   /*
@@ -111,21 +111,18 @@ export default function HRAttendanceDashboard() {
       : 0;
 
   const averageHours =
-    attendance.length > 0
-      ? (
-          attendance.reduce(
-            (sum, a) =>
-              sum + a.workedMinutes,
-            0
-          ) / attendance.length
-        ).toFixed(1)
-      : "0";
-
-  const totalHours =
-    attendance.reduce(
-      (sum, a) => sum + a.workedMinutes,
-      0
-    );
+  attendance.length > 0
+    ? (
+        attendance.reduce(
+          (sum, a) =>
+            sum + (a.workedMinutes || 0),
+          0
+        ) /
+        attendance.length /
+        60
+      ).toFixed(1)
+    : "0";
+  
 
   const departmentStats = useMemo(() => {
     const grouped: Record<
@@ -161,40 +158,52 @@ export default function HRAttendanceDashboard() {
   }, [attendance]);
 
   const weeklyTrend = useMemo(() => {
-    const days = [
-      "Sun",
-      "Mon",
-      "Tue",
-      "Wed",
-      "Thu",
-      "Fri",
-      "Sat",
-    ];
+  const now = new Date();
 
-    return days.map((day, index) => {
-      const count =
-        attendance.filter((a) => {
+  return Array.from({ length: 7 }).map(
+    (_, index) => {
+      const date = new Date();
+
+      date.setDate(
+        now.getDate() - (6 - index)
+      );
+
+      const count = attendance.filter(
+        (a) => {
           const d = new Date(a.date);
 
           return (
-            d.getDay() === index &&
+            d.toDateString() ===
+              date.toDateString() &&
             (a.status === "Present" ||
               a.status === "Late")
           );
-        }).length;
+        }
+      ).length;
 
       return {
-        day,
+        day: date.toLocaleDateString(
+          "en-US",
+          {
+            weekday: "short",
+          }
+        ),
         attendance: count,
       };
-    });
-  }, [attendance]);
+    }
+  );
+}, [attendance]);
 
-  const lateEmployees = useMemo(() => {
-    return attendance
-      .filter((a) => a.isLate)
-      .slice(0, 5);
-  }, [attendance]);
+ const lateEmployees = useMemo(() => {
+  return attendance
+    .filter(
+      (a) =>
+        a.isLate &&
+        new Date(a.date).toDateString() ===
+          new Date().toDateString()
+    )
+    .slice(0, 5);
+}, [attendance]);
 
   const locationStats = useMemo(() => {
     const grouped: Record<
@@ -477,13 +486,11 @@ export default function HRAttendanceDashboard() {
             {locationStats.map(
               ([location, count]) => {
                 const pct =
-                  totalEmployees > 0
-                    ? Math.round(
-                        (count /
-                          totalEmployees) *
-                          100
-                      )
-                    : 0;
+  attendance.length > 0
+    ? Math.round(
+        (count / attendance.length) * 100
+      )
+    : 0;
 
                 return (
                   <div
@@ -560,8 +567,15 @@ export default function HRAttendanceDashboard() {
               </thead>
 
               <tbody>
-                {attendance.map((item) => (
-                  <tr
+              {[...attendance]
+  .sort(
+    (a, b) =>
+      new Date(b.date).getTime() -
+      new Date(a.date).getTime()
+  )
+  .map((item) => (
+   
+    <tr
                     key={item.id}
                     className="border-b"
                   >
@@ -600,9 +614,7 @@ export default function HRAttendanceDashboard() {
                     </td>
 
                     <td className="p-4">
-                      {item.workedMinutes.toFixed(
-                        1
-                      )}
+                     {((item.workedMinutes || 0) / 60).toFixed(1)}h
                     </td>
 
                     <td className="p-4 max-w-[220px] truncate">

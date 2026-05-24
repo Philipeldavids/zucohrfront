@@ -97,8 +97,8 @@ export const recruitmentApi = {
   // =========================================
 
   applyToJob: async (
-    companySlug: string,
-    jobId: string,
+    companySlug: string | undefined,
+    jobId: string | undefined,
     data: ApplyJobRequest
   ) => {
     const formData = new FormData();

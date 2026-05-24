@@ -10,17 +10,14 @@ import {
   Receipt,
   Briefcase,
   ClipboardList,
-  Settings,
-  Bell,
-  LogOut,
+  Settings, 
   ChevronLeft,
   ChevronRight,
 } from "lucide-react";
 import { useState } from "react";
-//import { Button } from "@/components/ui/button.tsx";
-import { Badge } from "../components/ui/badge";
+
 import { Avatar, AvatarFallback } from "../components/ui/avatar";
-//import { useAuth } from "@/hooks/use-auth.ts";
+
 import Image from '../assets/1777297540099.png';
 
 const navItems = [

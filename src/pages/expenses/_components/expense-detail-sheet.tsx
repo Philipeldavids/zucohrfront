@@ -10,7 +10,6 @@ import { Badge } from "../../../components/ui/badge.tsx";
 import { Separator } from "../../../components/ui/separator.tsx";
 import { Avatar, AvatarFallback } from "../../../components/ui/avatar.tsx";
 import {
-  User,
   Tag,
   Calendar,
   DollarSign,

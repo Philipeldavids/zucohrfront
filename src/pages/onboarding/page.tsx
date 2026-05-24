@@ -1,7 +1,7 @@
 import { useState, useEffect } from "react";
 import {  onboardingService, employeeService,type OnboardingTask, type Employee,
 } from "../../lib/api";
-import { Card, CardContent, CardHeader, CardTitle } from "../../components/ui/card";
+import { Card, CardContent} from "../../components/ui/card";
 import { Badge } from "../../components/ui/badge";
 import { Button } from "../../components/ui/button";
 import { Input } from "../../components/ui/input";
@@ -246,33 +246,33 @@ const handleStartTask = async (
   }
 };
 
-  const handleAddTask = async (
-  data: Partial<OnboardingTask>
-) => {
-  try {
-    await onboardingService.create({
-      employeeId: data.employeeId,
-      title: data.title,
-      description: data.description,
-      category: data.category,
-      dueDate: data.dueDate,
-    });
+//   const handleAddTask = async (
+//   data: Partial<OnboardingTask>
+// ) => {
+//   try {
+//     await onboardingService.create({
+//       employeeId: data.employeeId,
+//       title: data.title,
+//       description: data.description,
+//       category: data.category,
+//       dueDate: data.dueDate,
+//     });
 
-    toast.success(
-      "Task added successfully"
-    );
+//     toast.success(
+//       "Task added successfully"
+//     );
 
-    setAddDialogOpen(false);
+//     setAddDialogOpen(false);
 
-    loadTasks();
-  } catch (err) {
-    console.error(err);
+//     loadTasks();
+//   } catch (err) {
+//     console.error(err);
 
-    toast.error(
-      "Failed to add task"
-    );
-  }
-};
+//     toast.error(
+//       "Failed to add task"
+//     );
+//   }
+// };
 
   return (
     <div className="flex flex-col gap-6 p-4 md:p-6 max-w-[1400px] mx-auto">

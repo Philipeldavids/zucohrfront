@@ -2,40 +2,29 @@ import { Link, useLocation } from "react-router-dom";
 import { useEffect } from 'react';
 import { cn } from "../lib/utils";
 import {
-  LayoutDashboard,
-  Users,
-  CalendarDays,
-  CreditCard,
+  LayoutDashboard,  
+  CalendarDays,  
   TrendingUp,
-  Receipt,
-  Briefcase,
+  Receipt,  
   ClipboardList,
-  Settings,
-  Bell,
-  LogOut,
+  Settings, 
   ChevronLeft,
   ChevronRight,
 } from "lucide-react";
 import { useState } from "react";
-//import { Button } from "@/components/ui/button.tsx";
-//import { Badge } from "../components/ui/badge";
+
 import { Avatar, AvatarFallback } from "../components/ui/avatar";
-//import { useAuth } from "@/hooks/use-auth.ts";
+
 import Image from '../assets/1777297540099.png';
 
 const navItems = [
  { label: "Dashboard", icon: LayoutDashboard, href: "/dashboard" },
-  //{ label: "Employees", icon: Users, href: "/employees" },
   { label: "Leave", icon: CalendarDays, href: "/leave" },
   { label: "Attendance", icon: ClipboardList, href: "/e-attendance"},
-  //{ label: "Payroll", icon: CreditCard, href: "/payroll" },
   { label: "Performance", icon: TrendingUp, href: "/performance" },
   { label: "Expenses", icon: Receipt, href: "/expenses" },
   
-  //{ label: "Recruitment", icon: Briefcase, href: "/recruitment" },
-  //{ label: "Onboarding", icon: ClipboardList, href: "/onboarding" },
-  //{ label: "Users", icon: Users, href: "/users" },
-  //{ label: "Roles", icon: ClipboardList, href: "/roles" }
+  
 ];
 
 export default function Sidebar2() {

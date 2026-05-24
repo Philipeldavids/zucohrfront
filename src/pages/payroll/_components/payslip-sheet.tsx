@@ -9,25 +9,22 @@ import {
   SheetHeader,
   SheetTitle,
 } from "../../../components/ui/sheet";
-//import { Badge } from "../../../components/ui/badge";
-//import { Button } from "../../../components/ui/button";
-//import { Separator } from "../../../components/ui/separator";
+
 import {
-  Download,
   Building2,
   User,
   Calendar,
 } from "lucide-react";
 import { toast } from "sonner";
 
-const statusColor: Record<string, string> = {
-  Draft:
-    "bg-gray-100 text-gray-600",
-  Processed:
-    "bg-blue-100 text-blue-700",
-  Paid:
-    "bg-emerald-100 text-emerald-700",
-};
+// const statusColor: Record<string, string> = {
+//   Draft:
+//     "bg-gray-100 text-gray-600",
+//   Processed:
+//     "bg-blue-100 text-blue-700",
+//   Paid:
+//     "bg-emerald-100 text-emerald-700",
+// };
 
 function LineItem({
   label,

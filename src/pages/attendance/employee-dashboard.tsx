@@ -43,7 +43,13 @@ const loadAttendance = async () => {
     const res =
       await attendanceService.myAttendance();
 
-    setAttendance(res);
+    setAttendance(res || []);
+  } catch (err) {
+    console.error(err);
+
+    toast.error(
+      "Failed to load attendance"
+    );
   } finally {
     setLoading(false);
   }
@@ -70,16 +76,18 @@ const loadAttendance = async () => {
       (a) => a.isLate
     ).length;
 
-  const totalHours =
-    attendance.reduce(
-      (sum, a) => sum + a.workedMinutes,
-      0
-    );
+  const totalWorkedMinutes =
+  attendance.reduce(
+    (sum, a) => sum + (a.workedMinutes || 0),
+    0
+  );
+
+
 
   const averageHours =
-    totalDays > 0
-      ? totalHours / totalDays
-      : 0;
+  totalDays > 0
+    ? totalWorkedMinutes / totalDays / 60
+    : 0;
 
   const attendanceRate =
     totalDays > 0
@@ -89,23 +97,26 @@ const loadAttendance = async () => {
       : 0;
 
   const thisWeekHours = useMemo(() => {
-    const now = new Date();
+  const now = new Date();
 
-    return attendance
-      .filter((a) => {
-        const d = new Date(a.date);
+  const totalMinutes = attendance
+    .filter((a) => {
+      const d = new Date(a.date);
 
-        const diff =
-          (now.getTime() - d.getTime()) /
-          (1000 * 60 * 60 * 24);
+      const diff =
+        (now.getTime() - d.getTime()) /
+        (1000 * 60 * 60 * 24);
 
-        return diff <= 7;
-      })
-      .reduce(
-        (sum, a) => sum + a.workedMinutes,
-        0
-      );
-  }, [attendance]);
+      return diff <= 7;
+    })
+    .reduce(
+      (sum, a) =>
+        sum + (a.workedMinutes || 0),
+      0
+    );
+
+  return totalMinutes / 60;
+}, [attendance]);
 
   
  const handleClockIn = async () => {
@@ -279,6 +290,7 @@ const loadAttendance = async () => {
       </div>
 
       <Card>
+  
         <CardHeader>
           <CardTitle>
             Attendance History
@@ -286,8 +298,23 @@ const loadAttendance = async () => {
         </CardHeader>
 
         <CardContent>
+          {loading ? (
+      <div className="py-10 text-center text-sm text-muted-foreground">
+        Loading attendance...
+      </div>
+    ) : attendance.length === 0 ? (
+      <div className="py-10 text-center text-sm text-muted-foreground">
+        No attendance records found
+      </div>
+    ) : (
           <div className="space-y-3">
-            {attendance.map((item) => (
+            {[...attendance]
+  .sort(
+    (a, b) =>
+      new Date(b.date).getTime() -
+      new Date(a.date).getTime()
+  )
+  .map((item) => (
               <div
                 key={item.id}
                 className="flex items-center justify-between border rounded-lg p-4"
@@ -300,8 +327,8 @@ const loadAttendance = async () => {
                   </p>
 
                   <p className="text-sm text-muted-foreground">
-                    {item.shift?.name}
-                  </p>
+  {item.locationAddress || "Remote"}
+</p>
                 </div>
 
                 <div>
@@ -332,15 +359,16 @@ const loadAttendance = async () => {
 
                 <div>
                   <p className="font-semibold">
-                    {item.workedMinutes.toFixed(
-                      1
-                    )}
-                    h
-                  </p>
+  {(
+    (item.workedMinutes || 0) / 60
+  ).toFixed(1)}
+  h
+</p>
                 </div>
               </div>
             ))}
           </div>
+    )}
         </CardContent>
       </Card>
     </div>

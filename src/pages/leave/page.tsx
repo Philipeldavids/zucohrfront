@@ -1,6 +1,6 @@
 import { useState, useEffect} from "react";
 //import { mockLeaves } from "../../lib/mock-data.ts";
-import { employeeService, leaveService, type Leave, type Employee} from "../../lib/api.ts";
+import { leaveService, type Leave} from "../../lib/api.ts";
 import { Card, CardContent } from "../../components/ui/card.tsx";
 import { Badge } from "../../components/ui/badge.tsx";
 import { Button } from "../../components/ui/button.tsx";
